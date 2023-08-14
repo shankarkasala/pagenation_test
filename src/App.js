@@ -14,6 +14,16 @@ export default function App() {
       .then((res) => setProducts(res.products));
   };
 
+  const handleselect = (selectedPage) => {
+    if (
+      selectedPage >= 1 &&
+      selectedPage <= products.length / 10 &&
+      selectedPage !== page
+    ) {
+      setPage(selectedPage);
+    }
+  };
+
   return (
     <div>
       {products.length > 0 &&
@@ -26,9 +36,22 @@ export default function App() {
           );
         })}
       <div>
-        <span onClick={() => setPage(page - 1)}>◀</span>
-        <span>{[...Array(products.length / 10)].map((res, i) => i)}</span>
-        <span onClick={() => setPage(page + 1)}>▶</span>
+        <span className="arrow" onClick={() => handleselect(page - 1)}>
+          ◀
+        </span>
+        <span>
+          {[...Array(products.length / 10)].map((res, i) => (
+            <span
+              onClick={() => handleselect(i + 1)}
+              className={page === i + 1 ? 'numbersselected' : 'numbers'}
+            >
+              {i + 1}
+            </span>
+          ))}
+        </span>
+        <span className="arrow" onClick={() => handleselect(page + 1)}>
+          ▶
+        </span>
       </div>
     </div>
   );
